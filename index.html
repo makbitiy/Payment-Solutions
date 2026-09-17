@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mak Bitiy — Payment Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue-deep:#17337A;
+    --blue:#2F6FED;
+    --blue-soft:#EAF0FF;
+    --gold:#F5B940;
+    --gold-deep:#D99420;
+    --gold-soft:#FFF6E4;
+    --ink:#152249;
+    --grey:#5B6480;
+    --white:#FFFFFF;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --blue-soft:#101A38;
+      --gold-soft:#211A0D;
+      --white:#0D1530;
+      --ink:#EAEEFF;
+      --grey:#AEB6D6;
+    }
+  }
+  :root[data-theme="dark"]{
+    --blue-soft:#101A38;
+    --gold-soft:#211A0D;
+    --white:#0D1530;
+    --ink:#EAEEFF;
+    --grey:#AEB6D6;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;overflow-x:hidden;}
+  body{
+    color:var(--ink);
+    font-family:'Poppins',-apple-system,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background:linear-gradient(180deg,
+      var(--blue-soft) 0%,
+      var(--white) 16%,
+      var(--white) 62%,
+      var(--gold-soft) 100%);
+  }
+  h1,h2,h3{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    line-height:1.1;
+    margin:0;
+    color:var(--blue-deep);
+  }
+  strong{font-weight:700;color:inherit;}
+  .hi{color:var(--gold-deep);}
+  .gold-heading{color:var(--gold-deep) !important;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:2;}
+
+  /* bubble decorations — used to bridge sections so colors blend rather than cut */
+  .bubble{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(245,185,64,0.45), rgba(245,185,64,0) 70%);
+    z-index:1;pointer-events:none;filter:blur(2px);
+  }
+  .bubble.blue{background:radial-gradient(circle at 30% 30%, rgba(47,111,237,0.30), rgba(47,111,237,0) 70%);}
+  .bubble.deep{background:radial-gradient(circle at 30% 30%, rgba(23,51,122,0.35), rgba(23,51,122,0) 70%);}
+
+  .btn{
+    display:inline-block;
+    background:var(--blue);
+    color:var(--white);
+    font-weight:700;
+    font-size:0.95rem;
+    padding:13px 26px;
+    border-radius:100px;
+    white-space:nowrap;
+    border:2px solid var(--blue);
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 8px 20px -8px rgba(47,111,237,0.6);
+    cursor:pointer;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-gold{
+    background:var(--gold);
+    color:var(--blue-deep);
+    border-color:var(--gold);
+    box-shadow:0 8px 20px -8px rgba(245,185,64,0.7);
+  }
+  .btn-gold:hover{background:var(--gold-deep);}
+  .btn-outline{
+    background:transparent;
+    color:var(--blue-deep);
+    border:2px solid var(--blue);
+    box-shadow:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:100px 0 70px;
+    overflow:hidden;
+    text-align:center;
+  }
+  .hero .name{
+    font-family:'Archivo Black',sans-serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    font-size:clamp(2.2rem,5.6vw,3.5rem);
+    color:var(--gold-deep);
+  }
+  .hero .tagline{
+    margin-top:6px;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:600;
+    font-size:clamp(1.1rem,2.2vw,1.4rem);
+    color:var(--blue);
+  }
+  .hero .hero-phone{
+    margin-top:6px;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--grey);
+  }
+  .hero .hero-phone a{color:var(--grey);}
+  .hero p.lede{
+    margin:28px auto 0;font-size:1.1rem;color:var(--grey);max-width:56ch;font-weight:500;
+  }
+  .hero-ctas{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+
+  /* ---------- WHAT YOU GET ---------- */
+  section.offer{padding:70px 0 90px;position:relative;}
+  .section-head{max-width:600px;margin:0 auto 46px;text-align:center;}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.5rem);}
+  .section-head p{color:var(--grey);margin-top:12px;font-size:1.05rem;font-weight:500;}
+
+  .offer-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  .offer-card{
+    background:var(--blue-soft);
+    border-radius:28px;
+    padding:30px 26px;
+  }
+  .offer-card .icon{
+    width:52px;height:52px;border-radius:50%;
+    background:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;margin-bottom:16px;
+  }
+  .offer-card h3{font-size:1.15rem;color:var(--blue-deep);}
+  .offer-card p{color:var(--grey);margin-top:8px;font-size:0.95rem;font-weight:500;}
+
+  /* ---------- GUARANTEE (rounded island) ---------- */
+  section.guarantee-wrap{padding:20px 0 70px;position:relative;}
+  .guarantee{
+    background:var(--blue-deep);
+    color:var(--white);
+    padding:64px 48px;
+    border-radius:48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .guarantee-inner{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;
+  }
+  .guarantee h2{color:var(--white);font-size:clamp(1.8rem,3.2vw,2.4rem);}
+  .guarantee h2 .hi{color:var(--gold);}
+  .guarantee p{color:#C9D4F2;margin-top:16px;font-size:1.05rem;font-weight:500;}
+  .guarantee-card{
+    background:var(--white);
+    border-radius:28px;
+    padding:32px;
+    color:var(--ink);
+  }
+  .guarantee-card .row{
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;
+    padding:16px 0;border-bottom:2px dashed var(--blue-soft);
+  }
+  .guarantee-card .row:last-of-type{border-bottom:none;}
+  .guarantee-card .row .lab{font-size:0.82rem;font-weight:600;color:var(--grey);}
+  .guarantee-card .row .amt{font-size:1.1rem;font-weight:700;}
+  .guarantee-card .row.no .amt{color:var(--blue-deep);}
+  .guarantee-card .row.yes .amt{color:var(--blue);}
+  .guarantee-badge{
+    margin-top:16px;
+    background:var(--gold);
+    color:var(--blue-deep);
+    text-align:center;
+    font-weight:700;
+    padding:12px;
+    border-radius:100px;
+    font-size:0.95rem;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  section.steps{padding:80px 0;}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .step-card{
+    text-align:center;
+    background:var(--white);
+    border:3px solid var(--blue-soft);
+    border-radius:28px;
+    padding:32px 24px;
+  }
+  .step-num{
+    width:46px;height:46px;border-radius:50%;
+    background:var(--blue);color:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.2rem;
+    margin:0 auto 16px;
+  }
+  .step-card h3{font-size:1.1rem;color:var(--blue-deep);}
+  .step-card p{color:var(--grey);margin-top:8px;font-size:0.93rem;font-weight:500;}
+
+  /* ---------- WHY (rounded island) ---------- */
+  section.why-wrap{padding:10px 0 80px;position:relative;}
+  .why{
+    background:var(--blue-soft);
+    border-radius:48px;
+    padding:64px 48px;
+  }
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .why-card{
+    background:var(--white);border-radius:28px;padding:28px 24px;
+  }
+  .why-card h3{font-size:1.1rem;color:var(--blue-deep);}
+  .why-card h3 .hi{color:var(--gold-deep);}
+  .why-card p{color:var(--grey);margin-top:8px;font-size:0.93rem;font-weight:500;}
+
+  /* ---------- FINAL CTA (rounded island) ---------- */
+  section.final-cta-wrap{padding:10px 0 60px;position:relative;}
+  .final-cta{
+    position:relative;
+    background:var(--gold);
+    color:var(--blue-deep);
+    padding:64px 48px;
+    border-radius:48px;
+    overflow:hidden;
+  }
+  .final-inner{width:100%;}
+  .final-cta h2{color:var(--blue-deep);font-size:clamp(2rem,3.6vw,2.7rem);max-width:14ch;}
+  .final-cta p{margin-top:14px;font-size:1.08rem;font-weight:600;max-width:42ch;color:#5A4715;}
+  .final-ctas{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap;}
+  .final-cta .btn{background:var(--blue-deep);color:var(--white);border-color:var(--blue-deep);}
+  .final-cta .btn-outline{background:transparent;color:var(--blue-deep);border:2px solid var(--blue-deep);box-shadow:none;}
+  /* ---------- STATEMENT FORM ---------- */
+  #statementFormWrap{
+    display:none;
+    margin:36px auto 0;
+    max-width:600px;
+    background:var(--white);
+    border-radius:28px;
+    padding:30px;
+    text-align:center;
+  }
+  #statementFormWrap.open{display:block;}
+  #statementFormWrap h3{color:var(--blue-deep);font-size:1.2rem;margin-bottom:18px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;justify-items:center;}
+  .form-field{display:flex;flex-direction:column;gap:6px;width:100%;align-items:center;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{font-size:0.82rem;font-weight:700;color:var(--blue-deep);text-align:center;}
+  .form-field input{
+    border:2px solid var(--blue-soft);
+    border-radius:16px;
+    padding:12px 16px;
+    font-family:'Poppins',sans-serif;
+    font-size:0.95rem;
+    color:var(--ink);
+    background:var(--white);
+    outline:none;
+    width:100%;
+    text-align:center;
+  }
+  .form-field input:focus{border-color:var(--blue);}
+  #statementFormWrap .btn{margin-top:18px;width:100%;max-width:280px;text-align:center;border:none;}
+  .form-status{margin-top:12px;font-size:0.88rem;font-weight:600;color:var(--blue-deep);}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:44px 0 30px;background:var(--blue-deep);color:#C9D4F2;border-radius:48px 48px 0 0;}
+  .foot-inner{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;}
+  .foot-brand{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);display:flex;align-items:center;gap:8px;}
+  footer p.legal{color:#8FA1D6;font-size:0.78rem;line-height:1.7;max-width:56ch;margin-top:12px;font-weight:500;}
+  footer .foot-contact{font-size:0.92rem;font-weight:600;}
+  footer .foot-contact a{color:var(--gold);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .offer-grid{grid-template-columns:1fr 1fr;}
+    .guarantee-inner{grid-template-columns:1fr;}
+    .steps-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr;}
+    .final-inner{grid-template-columns:1fr;}
+    .guarantee,.why,.final-cta{padding:48px 28px;border-radius:36px;}
+  }
+  @media (max-width:560px){
+    .offer-grid{grid-template-columns:1fr;}
+    .form-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="bubble" style="width:260px;height:260px;top:-80px;right:-60px;"></div>
+  <div class="bubble blue" style="width:180px;height:180px;top:20px;left:-60px;"></div>
+  <div class="wrap">
+    <h1 class="name">Payment Solutions Consultancy</h1>
+    <div class="tagline">Mak Bitiy</div>
+    <div class="hero-phone"><a href="tel:2482757220">248-275-7220</a></div>
+    <p class="lede">Dear business owner, allow us to review one processing statement for free. We will show you exactly what you are paying, and see whether we can lower your monthly cost or improve your equipment and support.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="#contact">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<section class="offer">
+  <div class="bubble blue" style="width:220px;height:220px;top:-40px;right:5%;"></div>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What You Actually Get</h2>
+      <p>One review covers all of it — no separate calls, no runaround.</p>
+    </div>
+    <div class="offer-grid">
+      <div class="offer-card">
+        <div class="icon">🔍</div>
+        <h3>Hidden Fees Found</h3>
+        <p>A plain-language walk-through of your statement — markup and junk fees included.</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">💳</div>
+        <h3>Lower Monthly Cost</h3>
+        <p>Transparent, honest pricing with no long-term contracts locking you in.</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">📟</div>
+        <h3>Reliable Equipment</h3>
+        <p>Chip, tap, and contactless terminals that keep up with your busiest hours.</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">☎️</div>
+        <h3>Real Support</h3>
+        <p>A direct line to us for account and equipment issues — not a call queue.</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">🏷️</div>
+        <h3>Cash Discount Option</h3>
+        <p>A compliant program that can pass processing costs to the card-paying customer.</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">⚡</div>
+        <h3>Fast Funding</h3>
+        <p>Same- or next-day funding to your bank account once you're set up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="guarantee-wrap">
+  <div class="bubble deep" style="width:200px;height:200px;top:-30px;left:8%;"></div>
+  <div class="wrap">
+    <div class="guarantee">
+      <div class="bubble" style="width:220px;height:220px;bottom:-70px;left:55%;"></div>
+      <div class="guarantee-inner">
+        <div>
+          <h2>If It's Not <span class="hi">Lower</span>, No Need To Switch</h2>
+          <p>We review your statement and provide a clear, written comparison of your current cost against ours. If we can't lower it, there's no obligation to switch.</p>
+        </div>
+        <div class="guarantee-card">
+          <div class="row no"><span class="lab">Your Current Statement</span><span class="amt">Reviewed At No Cost</span></div>
+          <div class="row yes"><span class="lab">Your Comparison</span><span class="amt">Provided In Writing</span></div>
+          <div class="row"><span class="lab">Obligation To Switch</span><span class="amt">None</span></div>
+          <div class="guarantee-badge">No Savings, No Switch — Guaranteed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How It Works</h2>
+      <p>Three steps, at your pace.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Send A Statement</h3>
+        <p>One recent processing statement — either a photo or document.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Get Your Numbers</h3>
+        <p>A clear comparison of what you pay now versus what you could pay.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Decide, No Pressure</h3>
+        <p>Switch if it's better. Walk away if it's not — either way, nothing owed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why-wrap">
+  <div class="bubble blue" style="width:180px;height:180px;top:-30px;right:10%;"></div>
+  <div class="wrap">
+    <div class="why">
+      <div class="section-head">
+        <h2 class="gold-heading">Why Work With Us</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3><span class="hi">Honest</span> Pricing</h3>
+          <p>Fully disclosed in writing before you switch anything — what you see is what you pay.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="hi">No</span> Long Contracts</h3>
+          <p>Month-to-month, no penalties, no fine print designed to lock you in.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="hi">Direct</span> Access</h3>
+          <p>One point of contact for your account and equipment — us, not a ticket queue.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta-wrap" id="contact">
+  <div class="bubble deep" style="width:200px;height:200px;top:-40px;right:15%;"></div>
+  <div class="wrap">
+    <div class="final-cta">
+      <div class="bubble" style="width:200px;height:200px;bottom:-60px;left:6%;background:radial-gradient(circle at 30% 30%, rgba(23,51,122,0.20), rgba(23,51,122,0) 70%);"></div>
+      <div class="final-inner">
+        <div>
+          <h2>Ready To See Your Real Numbers?</h2>
+
+          <div class="final-ctas" id="ctaButtons">
+            <button type="button" class="btn" id="contactMakBtn">Contact Mak</button>
+            <button type="button" class="btn btn-outline" id="toggleFormBtn">Email Your Statement</button>
+          </div>
+
+          <div class="final-ctas" id="callTextOptions" style="display:none;">
+            <a class="btn btn-gold" href="tel:2482757220">Call</a>
+            <a class="btn btn-outline" href="sms:2482757220">Text</a>
+          </div>
+
+          <div id="statementFormWrap">
+            <h3>Send Your Info To Get Started</h3>
+            <form id="statementForm">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="fullName">Full Name</label>
+                  <input type="text" id="fullName" required>
+                </div>
+                <div class="form-field">
+                  <label for="phoneNumber">Phone Number</label>
+                  <input type="tel" id="phoneNumber" required>
+                </div>
+                <div class="form-field">
+                  <label for="bizType">Type Of Business</label>
+                  <input type="text" id="bizType" required>
+                </div>
+                <div class="form-field">
+                  <label for="bizName">Business Name</label>
+                  <input type="text" id="bizName" required>
+                </div>
+                <div class="form-field full">
+                  <label for="bizAddress">Business Address</label>
+                  <input type="text" id="bizAddress" required>
+                </div>
+                <div class="form-field full">
+                  <label for="userEmail">Your Email</label>
+                  <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-field full">
+                  <label for="statementFile">Upload Your Statement (Photo Or Document)</label>
+                  <input type="file" id="statementFile" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-gold">Send</button>
+              <div class="form-status" id="formStatus"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    var toggleBtn = document.getElementById('toggleFormBtn');
+    var formWrap = document.getElementById('statementFormWrap');
+    var form = document.getElementById('statementForm');
+    var status = document.getElementById('formStatus');
+    var contactMakBtn = document.getElementById('contactMakBtn');
+    var ctaButtons = document.getElementById('ctaButtons');
+    var callTextOptions = document.getElementById('callTextOptions');
+
+    contactMakBtn.addEventListener('click', function(){
+      ctaButtons.style.display = 'none';
+      callTextOptions.style.display = 'flex';
+    });
+
+    toggleBtn.addEventListener('click', function(){
+      formWrap.classList.toggle('open');
+      if(formWrap.classList.contains('open')){
+        formWrap.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = document.getElementById('fullName').value;
+      var phone = document.getElementById('phoneNumber').value;
+      var bizType = document.getElementById('bizType').value;
+      var bizName = document.getElementById('bizName').value;
+      var bizAddress = document.getElementById('bizAddress').value;
+      var email = document.getElementById('userEmail').value;
+      var fileInput = document.getElementById('statementFile');
+      var hasFile = fileInput.files && fileInput.files.length > 0;
+      var fileName = hasFile ? fileInput.files[0].name : 'none selected';
+
+      var subject = encodeURIComponent('Free Processing Statement Review Request');
+      var body = encodeURIComponent(
+        'Full Name: ' + name + '\n' +
+        'Phone Number: ' + phone + '\n' +
+        'Type Of Business: ' + bizType + '\n' +
+        'Business Name: ' + bizName + '\n' +
+        'Business Address: ' + bizAddress + '\n' +
+        'Reply Email: ' + email + '\n' +
+        'Statement File: ' + fileName + '\n\n' +
+        '(Please attach the statement file to this email before sending.)'
+      );
+
+      var target = atob('bWthcmpvQHBheW1lbnRndXJ1cy5jb20=');
+      window.location.href = 'mailto:' + target + '?subject=' + subject + '&body=' + body;
+
+      status.textContent = hasFile
+        ? "Opening your email app now — please attach \"" + fileName + "\" before hitting send."
+        : "Opening your email app now — attach your statement before hitting send.";
+    });
+  })();
+</script>
+
+</body>
+</html>
